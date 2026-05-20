@@ -3,7 +3,7 @@
 This guide walks you through a full local setup of the A2A Agent.
 
 ## 1) Prerequisites
-- Node.js for local development
+- Node.js v24 for local development
 - Recommended: Node Version Manager (nvm)
 
 ## 2) Clone the Repository
@@ -21,9 +21,12 @@ npm install
 
 ## 4) Create Local Runtime Configuration
 Create a local `.cdsrc.json` from the provided sample. This file is git-ignored and holds your local CAP runtime configuration — the allow-list for push notification URLs (`ALLOWED_PUSH_NOTIFICATION_URLS`) and a `dummy` auth setup so you can call the agent without a real identity provider during local development.
+
+Also bind the SAP AI Core service instance so that CAP can resolve the credentials and connect to it at runtime. This assumes you have completed the deployment from [step 10](#10-deployment-to-cloud-foundry) at least once. Note that the service instance name is `generative-ai-hub` because features from the Generative AI Hub are used.
 ```bash
 cd a2a-agent/pro-code-agent/agent
 cp .cdsrc.sample.json .cdsrc.json
+npx cds bind -2 generative-ai-hub
 ```
 Adjust `ALLOWED_PUSH_NOTIFICATION_URLS` later if you want to test push notifications against additional hosts (see step 8).
 
@@ -40,7 +43,7 @@ Verify the Agent Card (GET):
 JSON‑RPC against the Agent:
 - URL: http://localhost:4004/
 - Headers: `Content-Type: application/json`
-- Optional for mock: `X-A2A-Extensions: https://github.com/SAP-samples/btp-joule-a2a-pro-code-agent/a2a-agent/extensions/mock-response/v1`
+- Keep the `extensions` property in the message object for a mock response from the Agent. Remove it to get the real Agent response.
 ```json
 {
   "jsonrpc": "2.0",
@@ -53,7 +56,10 @@ JSON‑RPC against the Agent:
       "messageId": "msg-1",
       "parts": [
         { "kind": "text", "text": "Optimize the latest order from customer Altinova." }
-      ]
+      ],
+      "extensions": [
+        "https://github.com/SAP-samples/btp-joule-a2a-pro-code-agent/a2a-agent/extensions/mock-response/v1"
+      ],
     },
     "configuration": { "blocking": true }
   }

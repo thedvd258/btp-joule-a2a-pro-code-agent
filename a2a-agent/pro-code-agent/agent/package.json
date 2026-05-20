@@ -29,6 +29,7 @@
         "@sap/cds-dk": ">=9",
         "@types/express": "^5.0.6",
         "@types/node": "^22.18.10",
+        "@types/uuid": "^10.0.0",
         "tsx": "^4",
         "typescript": "^5"
     },
