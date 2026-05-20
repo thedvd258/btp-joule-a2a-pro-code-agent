@@ -1,0 +1,57 @@
+# CAP related (including local DB/runtime/build)
+_out/
+gen/
+.gen/
+@cds-models/
+cds-models/
+node_modules/
+*.db
+*.sqlite
+connection.properties
+default-*.json
+.cdsrc-private.json
+.cdsrc.json
+
+# MTA and deployment artifacts
+mta_archives/
+*_mta_build_tmp
+*.mtar
+*.daar
+target/
+*.flattened-pom.xml
+*.tgz
+
+# Environment files
+.env
+.env.local
+.env.*.local
+*.local
+
+# Terraform
+terraform.auto.tfvars
+vibe-instructions/
+
+# Other Build outputs
+dist/
+webhook-server/router/resources/
+
+# Logs and runtime files
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+pids
+*.pid
+*.pid.lock
+*.seed
+
+# OS files
+.DS_Store
+._*
+.Trash-*
+
+# Merge/patch leftovers
+*.orig

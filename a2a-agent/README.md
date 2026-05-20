@@ -19,7 +19,15 @@ cd a2a-agent/pro-code-agent/agent
 npm install
 ```
 
-## 4) Start the Agent (Port 4004 locally)
+## 4) Create Local Runtime Configuration
+Create a local `.cdsrc.json` from the provided sample. This file is git-ignored and holds your local CAP runtime configuration — the allow-list for push notification URLs (`ALLOWED_PUSH_NOTIFICATION_URLS`) and a `dummy` auth setup so you can call the agent without a real identity provider during local development.
+```bash
+cd a2a-agent/pro-code-agent/agent
+cp .cdsrc.sample.json .cdsrc.json
+```
+Adjust `ALLOWED_PUSH_NOTIFICATION_URLS` later if you want to test push notifications against additional hosts (see step 8).
+
+## 5) Start the Agent (Port 4004 locally)
 Run the CAP service hosting the A2A endpoints.
 ```bash
 cd a2a-agent/pro-code-agent/agent
@@ -28,7 +36,7 @@ npm run watch
 Verify the Agent Card (GET):
 - http://localhost:4004/.well-known/agent-card.json
 
-## 5) Test Requests (locally)
+## 6) Test Requests (locally)
 JSON‑RPC against the Agent:
 - URL: http://localhost:4004/
 - Headers: `Content-Type: application/json`
@@ -52,13 +60,13 @@ JSON‑RPC against the Agent:
 }
 ```
 
-## 6) Multi‑Turn Conversations and `taskId`
+## 7) Multi‑Turn Conversations and `taskId`
 Flow:
   1) Send the first message without `taskId`.
   2) Extract the returned task ID from the response.
   3) Include that `taskId` in follow-up messages while the server process remains running.
 
-## 7) Push Notifications (Webhook + SSE UI)
+## 8) Push Notifications (Webhook + SSE UI)
 
 - Start the Webhook API (Port 4006) in new terminal window:
   ```bash
@@ -85,7 +93,7 @@ Flow:
 - Allow webhook URLs in the Agent:
   Ensure `ALLOWED_PUSH_NOTIFICATION_URLS` in `a2a-agent/pro-code-agent/agent/.cdsrc.json` includes `"http://localhost:4006/*"`.
 
-## 8) Agent Structure
+## 9) Agent Structure
 
 High-level flow:
 1) A2A request
@@ -128,7 +136,7 @@ Extend the agent:
 - Enable push: whitelist your destination in `.cdsrc.json` and set `pushNotificationConfig` in the client.
 - Add data models: define entities in `service.cds` and logic in `service.ts`, consume via `@cds-models/*` in tools/executor.
 
-## 9) Deployment to Cloud Foundry
+## 10) Deployment to Cloud Foundry
 
 ### Prerequisites
 - [MBT (MTA Build Tool)](https://sap.github.io/cloud-mta-build-tool/) installed
